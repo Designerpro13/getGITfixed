@@ -1,0 +1,14 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "PR Guard",
+      "trigger": "PreToolUse",
+      "matcher": "create_pull_request",
+      "action": {
+        "type": "command",
+        "command": "bash scripts/pr-guard.sh"
+      }
+    }
+  ]
+}

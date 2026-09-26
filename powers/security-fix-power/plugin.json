@@ -1,0 +1,22 @@
+{
+  "name": "security-fix",
+  "version": "1.0.0",
+  "description": "OWASP security fix patterns for React + FastAPI applications. Activates automatically when security-related keywords are detected.",
+  "keywords": [
+    "owasp",
+    "localStorage",
+    "injection",
+    "csrf",
+    "idor",
+    "token",
+    "vulnerability",
+    "security",
+    "xss",
+    "sqli",
+    "httpOnly",
+    "access_token",
+    "authorization",
+    "authentication"
+  ],
+  "skills": ["owasp-fix"]
+}

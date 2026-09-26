@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.env
+run-log.json
+*.tsbuildinfo
+.DS_Store
+coverage/

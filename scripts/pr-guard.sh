@@ -16,10 +16,10 @@ PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 STRICT="${STRICT_PR_GUARD:-0}"
 WARNINGS=0
 
-log_info()  { echo "[pr-guard] ℹ  $*"; }
-log_warn()  { echo "[pr-guard] ⚠  $*" >&2; WARNINGS=$((WARNINGS + 1)); }
-log_ok()    { echo "[pr-guard] ✓  $*"; }
-log_error() { echo "[pr-guard] ✗  $*" >&2; }
+log_info()  { echo "[getGITfixed:pr-guard] ℹ  $*"; }
+log_warn()  { echo "[getGITfixed:pr-guard] ⚠  $*" >&2; WARNINGS=$((WARNINGS + 1)); }
+log_ok()    { echo "[getGITfixed:pr-guard] ✓  $*"; }
+log_error() { echo "[getGITfixed:pr-guard] ✗  $*" >&2; }
 
 log_info "Running pre-PR checks…"
 
@@ -70,8 +70,8 @@ fi
 
 if [[ "${WARNINGS}" -gt 0 ]]; then
   echo ""
-  echo "[pr-guard] ⚠  ${WARNINGS} warning(s) detected. Proceeding with PR (soft-warn mode)."
-  echo "[pr-guard]    Set STRICT_PR_GUARD=1 to block PRs when warnings are present."
+  echo "[getGITfixed:pr-guard] ⚠  ${WARNINGS} warning(s) detected. Proceeding with PR (soft-warn mode)."
+  echo "[getGITfixed:pr-guard]    Set STRICT_PR_GUARD=1 to block PRs when warnings are present."
 
   if [[ "${STRICT}" == "1" ]]; then
     log_error "STRICT_PR_GUARD=1 — blocking PR creation due to ${WARNINGS} warning(s)."

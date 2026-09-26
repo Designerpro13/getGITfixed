@@ -1,7 +1,7 @@
 {
-  "name": "kiro-pr-bot",
+  "name": "getGITfixed",
   "version": "1.0.0",
-  "description": "Bot that reads a GitHub issue, generates a Kiro spec, implements the fix, and opens a PR — all from a single CLI command.",
+  "description": "Point it at a GitHub issue, get a PR back. Generates a Kiro spec, implements the fix, and opens a PR — all from a single CLI command.",
   "type": "module",
   "engines": {
     "node": ">=20.0.0"

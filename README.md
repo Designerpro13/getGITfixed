@@ -1,6 +1,6 @@
-# kiro-pr-bot
+# getGITfixed
 
-A bot that reads an open GitHub issue, generates a Kiro spec for the fix, implements the code change on a branch, and opens a Pull Request — triggered by a single command.
+Point it at a GitHub issue, get a PR back.
 
 ```bash
 ./run.sh 19
@@ -48,8 +48,8 @@ The agent fixes the React frontend and FastAPI backend, then opens a PR.
 ## Setup
 
 ```bash
-git clone https://github.com/Designerpro13/kiro-pr-bot.git
-cd kiro-pr-bot
+git clone https://github.com/Designerpro13/getGITfixed.git
+cd getGITfixed
 npm install
 cp .env.example .env
 # Edit .env — set GITHUB_TOKEN=ghp_...

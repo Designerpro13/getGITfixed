@@ -41,7 +41,7 @@ function getEnv(key: string): string {
   const value = process.env[key];
   if (!value) {
     throw new Error(
-      `[kiro-pr-bot] Required environment variable ${key} is not set. ` +
+      `[getGITfixed] Required environment variable ${key} is not set. ` +
         `Copy .env.example to .env and fill in the value.`,
     );
   }
@@ -49,7 +49,7 @@ function getEnv(key: string): string {
 }
 
 function log(message: string): void {
-  console.info(`[kiro-pr-bot] ${message}`);
+  console.info(`[getGITfixed] ${message}`);
 }
 
 // ---------------------------------------------------------------------------
@@ -320,13 +320,13 @@ if (isMain) {
   const issueNumber = issueArg !== undefined ? parseInt(issueArg, 10) : NaN;
 
   if (!issueArg || isNaN(issueNumber) || issueNumber <= 0) {
-    console.error("[kiro-pr-bot] Usage: tsx src/spec-gen.ts <issue-number>");
+    console.error("[getGITfixed] Usage: tsx src/spec-gen.ts <issue-number>");
     console.error("  Example: tsx src/spec-gen.ts 19");
     process.exit(1);
   }
 
   generateSpec(issueNumber).catch((err: unknown) => {
-    console.error("[kiro-pr-bot] Fatal error:", err);
+    console.error("[getGITfixed] Fatal error:", err);
     process.exit(1);
   });
 }

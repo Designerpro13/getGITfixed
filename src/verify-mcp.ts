@@ -22,7 +22,7 @@ function getEnv(key: string): string {
   const value = process.env[key];
   if (!value) {
     throw new Error(
-      `[kiro-pr-bot] Required environment variable ${key} is not set. ` +
+      `[getGITfixed] Required environment variable ${key} is not set. ` +
         `Copy .env.example to .env and fill in the value.`,
     );
   }
@@ -30,7 +30,7 @@ function getEnv(key: string): string {
 }
 
 function log(message: string): void {
-  console.info(`[kiro-pr-bot] ${message}`);
+  console.info(`[getGITfixed] ${message}`);
 }
 
 // ---------------------------------------------------------------------------
@@ -62,7 +62,7 @@ export async function verifyMcp(
 
   if (missingScopes.length > 0) {
     console.warn(
-      `[kiro-pr-bot] Warning: token may be missing scopes: ${missingScopes.join(", ")}`,
+      `[getGITfixed] Warning: token may be missing scopes: ${missingScopes.join(", ")}`,
     );
   }
 
@@ -108,7 +108,7 @@ const isMain = process.argv[1]?.includes("verify-mcp");
 
 if (isMain) {
   verifyMcp().catch((err: unknown) => {
-    console.error("[kiro-pr-bot] Verification failed:", err);
+    console.error("[getGITfixed] Verification failed:", err);
     process.exit(1);
   });
 }

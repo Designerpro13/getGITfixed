@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# run.sh — kiro-pr-bot entry point
+# run.sh — getGITfixed entry point
 #
 # Usage: ./run.sh <issue-number>
 # Example: ./run.sh 19
@@ -26,10 +26,10 @@ YELLOW="\033[0;33m"
 RED="\033[0;31m"
 RESET="\033[0m"
 
-log_info()  { echo -e "${BOLD}[kiro-pr-bot]${RESET} $*"; }
-log_ok()    { echo -e "${GREEN}[kiro-pr-bot] ✓${RESET} $*"; }
-log_warn()  { echo -e "${YELLOW}[kiro-pr-bot] ⚠${RESET} $*"; }
-log_error() { echo -e "${RED}[kiro-pr-bot] ✗${RESET} $*" >&2; }
+log_info()  { echo -e "${BOLD}[getGITfixed]${RESET} $*"; }
+log_ok()    { echo -e "${GREEN}[getGITfixed] ✓${RESET} $*"; }
+log_warn()  { echo -e "${YELLOW}[getGITfixed] ⚠${RESET} $*"; }
+log_error() { echo -e "${RED}[getGITfixed] ✗${RESET} $*" >&2; }
 
 # ---------------------------------------------------------------------------
 # Parse arguments

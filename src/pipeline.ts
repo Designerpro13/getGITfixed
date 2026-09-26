@@ -1,7 +1,7 @@
 /**
  * pipeline.ts
  *
- * Orchestrates the full kiro-pr-bot pipeline:
+ * Orchestrates the full getGITfixed pipeline:
  *   1. Validate preconditions (GITHUB_TOKEN, kiro-cli presence)
  *   2. Generate spec files from the GitHub issue (spec-gen.ts)
  *   3. Invoke kiro-cli --no-interactive with pr-agent
@@ -48,14 +48,14 @@ export interface PipelineResult {
 // ---------------------------------------------------------------------------
 
 function log(message: string): void {
-  console.info(`[kiro-pr-bot] ${message}`);
+  console.info(`[getGITfixed] ${message}`);
 }
 
 function getEnv(key: string): string {
   const value = process.env[key];
   if (!value) {
     throw new Error(
-      `[kiro-pr-bot] Required environment variable ${key} is not set.`,
+      `[getGITfixed] Required environment variable ${key} is not set.`,
     );
   }
   return value;
@@ -75,7 +75,7 @@ async function assertKiroCli(): Promise<void> {
     await execFileAsync("kiro-cli", ["--version"]);
   } catch {
     throw new Error(
-      "[kiro-pr-bot] kiro-cli is not installed or not in PATH. " +
+      "[getGITfixed] kiro-cli is not installed or not in PATH. " +
         "Install it with: npm install -g @kiro/cli",
     );
   }
@@ -215,7 +215,7 @@ if (isMain) {
   const issueNumber = issueArg !== undefined ? parseInt(issueArg, 10) : NaN;
 
   if (!issueArg || isNaN(issueNumber) || issueNumber <= 0) {
-    console.error("[kiro-pr-bot] Usage: tsx src/pipeline.ts <issue-number>");
+    console.error("[getGITfixed] Usage: tsx src/pipeline.ts <issue-number>");
     process.exit(1);
   }
 
@@ -224,12 +224,12 @@ if (isMain) {
       log(`Pipeline completed successfully for issue #${issueNumber}`);
     } else {
       console.error(
-        `[kiro-pr-bot] Pipeline failed: ${result.error ?? "unknown error"}`,
+        `[getGITfixed] Pipeline failed: ${result.error ?? "unknown error"}`,
       );
       process.exit(1);
     }
   }).catch((err: unknown) => {
-    console.error("[kiro-pr-bot] Fatal error:", err);
+    console.error("[getGITfixed] Fatal error:", err);
     process.exit(1);
   });
 }

@@ -93,12 +93,13 @@ export async function fetchIssue(
 // ---------------------------------------------------------------------------
 
 export function generateRequirements(issue: GitHubIssue): string {
+  const issueNum = String(issue.number);
   const labelNames = issue.labels.map((l) => l.name ?? "").filter(Boolean);
   const labelStr = labelNames.length > 0 ? labelNames.join(", ") : "security";
 
   return `---
-specId: issue-${issue.number}
-issueNumber: ${issue.number}
+specId: issue-${issueNum}
+issueNumber: ${issueNum}
 issueUrl: ${issue.html_url}
 generatedAt: ${new Date().toISOString()}
 ---
@@ -107,7 +108,7 @@ generatedAt: ${new Date().toISOString()}
 
 ## Background
 
-This spec was auto-generated from GitHub issue #${issue.number} in
+This spec was auto-generated from GitHub issue #${issueNum} in
 [Designerpro13/hb-frontend](https://github.com/Designerpro13/hb-frontend).
 
 **Issue labels:** ${labelStr}
@@ -121,11 +122,11 @@ ${issue.body ?? "_No description provided in the issue._"}
 ## User Story
 
 > As a user of hb-frontend, the application should **not** expose the vulnerability
-> described in issue #${issue.number}, so that my account and data remain secure.
+> described in issue #${issueNum}, so that my account and data remain secure.
 
 ## Acceptance Criteria
 
-- [ ] AC-1: The vulnerability described in issue #${issue.number} is fully remediated
+- [ ] AC-1: The vulnerability described in issue #${issueNum} is fully remediated
 - [ ] AC-2: Existing tests continue to pass after the fix
 - [ ] AC-3: New tests are added that directly verify the fix
 - [ ] AC-4: No new security warnings are introduced by the change
@@ -145,9 +146,11 @@ ${issue.body ?? "_No description provided in the issue._"}
 }
 
 export function generateDesign(issue: GitHubIssue): string {
+  const issueNum = String(issue.number);
+
   return `---
-specId: issue-${issue.number}
-issueNumber: ${issue.number}
+specId: issue-${issueNum}
+issueNumber: ${issueNum}
 ---
 
 # Design: ${issue.title}
@@ -155,7 +158,7 @@ issueNumber: ${issue.number}
 ## Overview
 
 This document describes the technical approach for fixing the security vulnerability
-reported in issue #${issue.number}.
+reported in issue #${issueNum}.
 
 ## Affected Areas
 
@@ -186,9 +189,9 @@ fix rationale.
 
 ## Branch Naming
 
-\`fix/issue-${issue.number}-<short-slug>\`
+\`fix/issue-${issueNum}-<short-slug>\`
 
-Example: \`fix/issue-${issue.number}-${slugify(issue.title)}\`
+Example: \`fix/issue-${issueNum}-${slugify(issue.title)}\`
 
 ## PR Description Template
 
@@ -205,9 +208,11 @@ under "General PR Description Template".
 }
 
 export function generateTasks(issue: GitHubIssue): string {
+  const issueNum = String(issue.number);
+
   return `---
-specId: issue-${issue.number}
-issueNumber: ${issue.number}
+specId: issue-${issueNum}
+issueNumber: ${issueNum}
 ---
 
 # Tasks: ${issue.title}
@@ -216,7 +221,7 @@ issueNumber: ${issue.number}
 
 - [ ] 1. Confirm \`GITHUB_TOKEN\` environment variable is set and has \`repo\`, \`issues\`, \`pull_requests\` scopes
 - [ ] 2. Verify Docker is running (required for GitHub MCP server): \`docker info\`
-- [ ] 3. Read the issue body in full: [#${issue.number}](${issue.html_url})
+- [ ] 3. Read the issue body in full: [#${issueNum}](${issue.html_url})
 
 ## Spec
 
@@ -234,11 +239,11 @@ issueNumber: ${issue.number}
 
 ## Git & PR
 
-- [ ] 12. Create a branch: \`git checkout -b fix/issue-${issue.number}-<slug>\`
-- [ ] 13. Stage and commit: \`git commit -m "fix: remediate security issue #${issue.number}"\`
-- [ ] 14. Push the branch: \`git push -u origin fix/issue-${issue.number}-<slug>\`
-- [ ] 15. Open a PR via GitHub MCP referencing issue #${issue.number}
-- [ ] 16. Add a comment on issue #${issue.number} linking back to the PR
+- [ ] 12. Create a branch: \`git checkout -b fix/issue-${issueNum}-<slug>\`
+- [ ] 13. Stage and commit: \`git commit -m "fix: remediate security issue #${issueNum}"\`
+- [ ] 14. Push the branch: \`git push -u origin fix/issue-${issueNum}-<slug>\`
+- [ ] 15. Open a PR via GitHub MCP referencing issue #${issueNum}
+- [ ] 16. Add a comment on issue #${issueNum} linking back to the PR
 
 ## Verification
 

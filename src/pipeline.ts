@@ -115,7 +115,8 @@ export async function runPipeline(
   }
 
   // --- Step 3: Generate spec files ---
-  log(`Generating spec for issue #${issueNumber} on ${owner}/${repo}…`);
+  const issueNum = String(issueNumber);
+  log(`Generating spec for issue #${issueNum} on ${owner}/${repo}…`);
   try {
     await generateSpec(issueNumber);
     result.specGenerated = true;
@@ -147,10 +148,10 @@ export async function runPipeline(
 
   // --- Step 5: Invoke kiro-cli --no-interactive ---
   const prompt =
-    `Issue #${issueNumber} in ${owner}/${repo} has been specced in .kiro/specs/issue-fix/. ` +
+    `Issue #${issueNum} in ${owner}/${repo} has been specced in .kiro/specs/issue-fix/. ` +
     `Read the spec, clone the repo, implement the fix following the steering and ` +
     `security-fix power guidance, run the test suite, create a branch named ` +
-    `fix/issue-${issueNumber}, push it, and open a PR referencing issue #${issueNumber}.`;
+    `fix/issue-${issueNum}, push it, and open a PR referencing issue #${issueNum}.`;
 
   log("Invoking kiro-cli…");
   log(`Prompt: ${prompt}`);
@@ -221,7 +222,7 @@ if (isMain) {
 
   runPipeline({ issueNumber }).then((result) => {
     if (result.success) {
-      log(`Pipeline completed successfully for issue #${issueNumber}`);
+      log(`Pipeline completed successfully for issue #${String(issueNumber)}`);
     } else {
       console.error(
         `[getGITfixed] Pipeline failed: ${result.error ?? "unknown error"}`,

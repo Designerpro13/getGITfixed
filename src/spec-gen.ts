@@ -10,7 +10,7 @@
 
 import { mkdir, writeFile } from "node:fs/promises";
 import { join, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { Octokit } from "@octokit/rest";
 
 // ---------------------------------------------------------------------------
@@ -318,7 +318,7 @@ function slugify(title: string): string {
 // Only run when invoked directly (not when imported by tests)
 const isMain =
   process.argv[1] !== undefined &&
-  fileURLToPath(import.meta.url).endsWith(process.argv[1].replace(/\.js$/, ".ts"));
+  import.meta.url === pathToFileURL(process.argv[1]).href;
 
 if (isMain) {
   const issueArg = process.argv[2];

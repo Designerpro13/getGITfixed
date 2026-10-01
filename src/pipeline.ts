@@ -15,7 +15,7 @@
 import { execFile } from "node:child_process";
 import { access, constants } from "node:fs/promises";
 import { join, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { promisify } from "node:util";
 import { generateSpec } from "./spec-gen.js";
 
@@ -209,7 +209,7 @@ export async function runPipeline(
 
 const isMain =
   process.argv[1] !== undefined &&
-  fileURLToPath(import.meta.url).endsWith(process.argv[1].replace(/\.js$/, ".ts"));
+  import.meta.url === pathToFileURL(process.argv[1]).href;
 
 if (isMain) {
   const issueArg = process.argv[2];

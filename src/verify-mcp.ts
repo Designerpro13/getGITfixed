@@ -12,6 +12,7 @@
  * Usage: tsx src/verify-mcp.ts
  */
 
+import { pathToFileURL } from "node:url";
 import { Octokit } from "@octokit/rest";
 
 // ---------------------------------------------------------------------------
@@ -104,7 +105,9 @@ export async function verifyMcp(
 // CLI entry point
 // ---------------------------------------------------------------------------
 
-const isMain = process.argv[1]?.includes("verify-mcp");
+const isMain =
+  process.argv[1] !== undefined &&
+  import.meta.url === pathToFileURL(process.argv[1]).href;
 
 if (isMain) {
   verifyMcp().catch((err: unknown) => {

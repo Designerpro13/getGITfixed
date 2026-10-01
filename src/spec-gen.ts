@@ -335,13 +335,11 @@ function slugify(title: string): string {
 // ---------------------------------------------------------------------------
 
 // Only run when invoked directly (not when imported by tests)
-const isMain =
-  process.argv[1] !== undefined &&
-  import.meta.url === pathToFileURL(process.argv[1]).href;
+const isMain = import.meta.url === pathToFileURL(process.argv[1] ?? "").href;
 
 if (isMain) {
   const issueArg = process.argv[2];
-  const issueNumber = issueArg !== undefined ? parseInt(issueArg, 10) : NaN;
+  const issueNumber = parseInt(issueArg, 10);
 
   if (!issueArg || isNaN(issueNumber) || issueNumber <= 0) {
     console.error("[getGITfixed] Usage: tsx src/spec-gen.ts <issue-number>");

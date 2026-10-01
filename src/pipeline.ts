@@ -185,17 +185,17 @@ export async function runPipeline(
     log("kiro-cli completed successfully");
   } catch (err: unknown) {
     const execErr = err as NodeJS.ErrnoException & {
-      code?: number;
       stdout?: string;
       stderr?: string;
     };
+    const exitCode = (err as { status?: number }).status ?? 1;
 
-    result.kiroCliExitCode = execErr.code ?? 1;
+    result.kiroCliExitCode = exitCode;
 
-    if (execErr.stdout) process.stdout.write(execErr.stdout);
-    if (execErr.stderr) process.stderr.write(execErr.stderr);
+    if (execErr.stdout != null) process.stdout.write(execErr.stdout);
+    if (execErr.stderr != null) process.stderr.write(execErr.stderr);
 
-    result.error = `kiro-cli exited with code ${result.kiroCliExitCode}: ${execErr.message}`;
+    result.error = `kiro-cli exited with code ${String(exitCode)}: ${execErr.message}`;
     log(`kiro-cli failed: ${result.error}`);
     // Non-zero exit is still logged but we don't panic — the PR may have been opened
   }
@@ -207,13 +207,11 @@ export async function runPipeline(
 // CLI entry point
 // ---------------------------------------------------------------------------
 
-const isMain =
-  process.argv[1] !== undefined &&
-  import.meta.url === pathToFileURL(process.argv[1]).href;
+const isMain = import.meta.url === pathToFileURL(process.argv[1] ?? "").href;
 
 if (isMain) {
   const issueArg = process.argv[2];
-  const issueNumber = issueArg !== undefined ? parseInt(issueArg, 10) : NaN;
+  const issueNumber = parseInt(issueArg, 10);
 
   if (!issueArg || isNaN(issueNumber) || issueNumber <= 0) {
     console.error("[getGITfixed] Usage: tsx src/pipeline.ts <issue-number>");

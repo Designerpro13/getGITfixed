@@ -53,7 +53,7 @@ export async function verifyMcp(
   // --- Check token scopes ---
   log("Checking token scopes…");
   const { headers } = await octokit.request("GET /user");
-  const scopes = (headers["x-oauth-scopes"] as string | undefined) ?? "(none returned)";
+  const scopes = headers["x-oauth-scopes"] ?? "(none returned)";
   log(`Token scopes: ${scopes}`);
 
   const requiredScopes = ["repo", "issues"];
@@ -82,7 +82,7 @@ export async function verifyMcp(
     return;
   }
 
-  log(`Found ${issues.length} open issue(s):\n`);
+  log(`Found ${String(issues.length)} open issue(s):\n`);
 
   for (const issue of issues) {
     const labels = issue.labels
@@ -105,9 +105,7 @@ export async function verifyMcp(
 // CLI entry point
 // ---------------------------------------------------------------------------
 
-const isMain =
-  process.argv[1] !== undefined &&
-  import.meta.url === pathToFileURL(process.argv[1]).href;
+const isMain = import.meta.url === pathToFileURL(process.argv[1] ?? "").href;
 
 if (isMain) {
   verifyMcp().catch((err: unknown) => {

@@ -60,17 +60,24 @@ export async function fetchIssue(
   issueNumber: number,
   owner = "Designerpro13",
   repo = "hb-frontend",
+  octokit?: Octokit,
 ): Promise<GitHubIssue> {
-  const token = getEnv("GITHUB_TOKEN");
-  const octokit = new Octokit({ auth: token });
+  const client = octokit ?? new Octokit({ auth: getEnv("GITHUB_TOKEN") });
 
-  log(`Fetching issue #${issueNumber} from ${owner}/${repo}…`);
+  log(`Fetching issue #${String(issueNumber)} from ${owner}/${repo}…`);
 
-  const response = await octokit.issues.get({
-    owner,
-    repo,
-    issue_number: issueNumber,
-  });
+  let response: Awaited<ReturnType<typeof client.issues.get>>;
+  try {
+    response = await client.issues.get({
+      owner,
+      repo,
+      issue_number: issueNumber,
+    });
+  } catch (err) {
+    throw new Error(
+      `Failed to fetch issue #${String(issueNumber)} from ${owner}/${repo}: ${String(err)}`,
+    );
+  }
 
   const issue = response.data;
   log(`Fetched: "${issue.title}"`);

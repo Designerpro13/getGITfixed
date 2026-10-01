@@ -262,19 +262,31 @@ const PROJECT_ROOT = join(__dirname, "..");
 const SPEC_DIR = join(PROJECT_ROOT, ".kiro", "specs", "issue-fix");
 
 export async function writeSpec(files: SpecFiles): Promise<void> {
-  await mkdir(SPEC_DIR, { recursive: true });
-
   const paths = {
     requirements: join(SPEC_DIR, "requirements.md"),
     design: join(SPEC_DIR, "design.md"),
     tasks: join(SPEC_DIR, "tasks.md"),
   } as const;
 
-  await Promise.all([
-    writeFile(paths.requirements, files.requirements, "utf-8"),
-    writeFile(paths.design, files.design, "utf-8"),
-    writeFile(paths.tasks, files.tasks, "utf-8"),
-  ]);
+  try {
+    await mkdir(SPEC_DIR, { recursive: true });
+  } catch (err) {
+    throw new Error(
+      `Failed to create spec directory at ${SPEC_DIR}: ${String(err)}`,
+    );
+  }
+
+  try {
+    await Promise.all([
+      writeFile(paths.requirements, files.requirements, "utf-8"),
+      writeFile(paths.design, files.design, "utf-8"),
+      writeFile(paths.tasks, files.tasks, "utf-8"),
+    ]);
+  } catch (err) {
+    throw new Error(
+      `Failed to write spec files to ${SPEC_DIR}: ${String(err)}`,
+    );
+  }
 
   log(`Spec files written to ${SPEC_DIR}`);
   log(`  ✓ requirements.md`);

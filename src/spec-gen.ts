@@ -22,7 +22,7 @@ export interface GitHubIssue {
   title: string;
   body: string | null;
   html_url: string;
-  labels: Array<{ name: string | undefined }>;
+  labels: { name: string | undefined }[];
   user: { login: string } | null;
   created_at: string;
 }

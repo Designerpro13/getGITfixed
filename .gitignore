@@ -5,3 +5,4 @@ run-log.json
 *.tsbuildinfo
 .DS_Store
 coverage/
+logs/

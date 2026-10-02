@@ -3,28 +3,39 @@
   "model": "auto",
   "description": "Reads a GitHub issue from Designerpro13/hb-frontend, generates a Kiro spec, implements the security fix, runs tests, and opens a PR — all headlessly.",
   "tools": ["read", "write", "shell", "grep"],
-  "excludedTools": ["knowledge", "browser"],
-  "includeMcpJson": true,
-  "includePowers": true,
+  "toolsSettings": {
+    "shell": {
+      "allowedCommands": ["npm *", "git *", "npx *", "tsx *", "bash *"],
+      "deniedCommands": ["rm -rf *", "sudo *", "chmod 777 *"],
+      "autoAllowReadonly": true,
+      "denyByDefault": false
+    }
+  },
   "resources": [
     "file://.kiro/steering/product.md",
     "file://.kiro/steering/tech.md",
     "file://.kiro/steering/code-conventions.md",
-    "file://.kiro/steering/security-fix-patterns.md"
+    "file://.kiro/steering/security-fix-patterns.md",
+    "skill://powers/security-fix-power/skills/owasp-fix/SKILL.md"
   ],
-  "permissions": {
-    "rules": [
-      {
-        "capability": "shell",
-        "match": ["npm *", "git *", "npx *", "tsx *", "bash *"],
-        "effect": "allow"
-      },
-      {
-        "capability": "shell",
-        "match": ["rm -rf *", "sudo *", "chmod 777 *"],
-        "effect": "deny"
+  "mcpServers": {
+    "github": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "-e",
+        "GITHUB_TOOLSETS",
+        "ghcr.io/github/github-mcp-server"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}",
+        "GITHUB_TOOLSETS": "repos,issues,pull_requests"
       }
-    ]
+    }
   },
   "prompt": "You are a security-fix PR bot for the repository Designerpro13/hb-frontend.\n\nWhen given a GitHub issue number, follow these steps exactly:\n1. Read the issue via the GitHub MCP tool (list_issues or get_issue)\n2. The spec files are already written at .kiro/specs/issue-fix/ — read them carefully\n3. Clone or navigate to a local copy of Designerpro13/hb-frontend\n4. Implement the security fix following the steering docs and security-fix-patterns.md guidance\n5. Write or update tests for the changed code\n6. Run the test suite and confirm it passes\n7. Create a branch named fix/issue-{N} via the GitHub MCP\n8. Commit and push the changes\n9. Open a PR via the GitHub MCP that: (a) references the issue number, (b) links to the spec files, (c) describes the security fix in plain language\n10. Add a comment on the original issue linking back to the PR\n\nNever modify files outside the hb-frontend clone. Always reference the issue number in branch names, commit messages, and the PR title.",
   "welcomeMessage": "PR agent ready. Give me an issue number (e.g. 'Fix issue #19')."

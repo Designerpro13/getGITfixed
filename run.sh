@@ -88,6 +88,7 @@ echo "[getGITfixed] Specs generated. Running kiro-cli headlessly…"
 # Run kiro-cli headlessly with stream-json output
 kiro-cli chat \
   --no-interactive \
+  --trust-all-tools \
   --agent pr-agent \
   --output-format stream-json \
   -- \

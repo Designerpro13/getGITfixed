@@ -85,13 +85,13 @@ const {
 
 describe("fetchIssue", () => {
   beforeEach(() => {
-    process.env["GITHUB_TOKEN"] = "test-token-1234";
+    process.env.GITHUB_TOKEN = "test-token-1234";
     mockGetIssue.mockResolvedValue({ data: { ...MOCK_ISSUE, user: { login: "reporter" }, labels: [{ name: "security" }, { name: "bug" }], body: MOCK_ISSUE.body } });
   });
 
   afterEach(() => {
     vi.clearAllMocks();
-    delete process.env["GITHUB_TOKEN"];
+    delete process.env.GITHUB_TOKEN;
   });
 
   it("calls Octokit with the correct owner, repo and issue number", async () => {
@@ -113,7 +113,7 @@ describe("fetchIssue", () => {
   });
 
   it("throws if GITHUB_TOKEN is not set", async () => {
-    delete process.env["GITHUB_TOKEN"];
+    delete process.env.GITHUB_TOKEN;
     await expect(fetchIssue(19)).rejects.toThrow(/GITHUB_TOKEN/);
   });
 
@@ -291,7 +291,7 @@ describe("writeSpec", () => {
 
 describe("generateSpec", () => {
   beforeEach(() => {
-    process.env["GITHUB_TOKEN"] = "test-token";
+    process.env.GITHUB_TOKEN = "test-token";
     mockGetIssue.mockResolvedValue({
       data: {
         ...MOCK_ISSUE,
@@ -306,7 +306,7 @@ describe("generateSpec", () => {
 
   afterEach(() => {
     vi.clearAllMocks();
-    delete process.env["GITHUB_TOKEN"];
+    delete process.env.GITHUB_TOKEN;
   });
 
   it("returns a SpecFiles object with all three fields populated", async () => {

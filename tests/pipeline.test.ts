@@ -24,12 +24,13 @@ vi.mock("node:child_process", () => ({
 
 vi.mock("node:util", () => ({
   promisify: (fn: unknown) => {
-    // If promisifying execFile, return our mock async wrapper
+    // If promisifying execFile, return our mock wrapper
     if (fn === mockExecFile) {
-      return async (...args: unknown[]) => mockExecFile(...args);
+      return (...args: unknown[]): Promise<unknown> =>
+        Promise.resolve(mockExecFile(...args));
     }
     // Fallback for anything else
-    return (..._args: unknown[]) => Promise.resolve(fn);
+    return (..._args: unknown[]): Promise<unknown> => Promise.resolve(fn);
   },
 }));
 
@@ -85,7 +86,7 @@ function makeOptions(overrides: Partial<PipelineOptions> = {}): PipelineOptions 
 
 describe("runPipeline", () => {
   beforeEach(() => {
-    process.env["GITHUB_TOKEN"] = "ghp_test_token";
+    process.env.GITHUB_TOKEN = "ghp_test_token";
 
     // spec files exist on disk
     mockAccess.mockResolvedValue(undefined);
@@ -111,7 +112,7 @@ describe("runPipeline", () => {
 
   afterEach(() => {
     vi.clearAllMocks();
-    delete process.env["GITHUB_TOKEN"];
+    delete process.env.GITHUB_TOKEN;
   });
 
   it("returns success: true on a happy-path dry run", async () => {
@@ -127,7 +128,7 @@ describe("runPipeline", () => {
   });
 
   it("fails if GITHUB_TOKEN is not set", async () => {
-    delete process.env["GITHUB_TOKEN"];
+    delete process.env.GITHUB_TOKEN;
     const result = await runPipeline(makeOptions({ dryRun: true }));
     expect(result.success).toBe(false);
     expect(result.error).toMatch(/GITHUB_TOKEN/);
@@ -180,14 +181,14 @@ describe("runPipeline", () => {
 
 describe("runPipeline — input edge cases", () => {
   beforeEach(() => {
-    process.env["GITHUB_TOKEN"] = "ghp_test";
+    process.env.GITHUB_TOKEN = "ghp_test";
     mockAccess.mockResolvedValue(undefined);
     mockGenerateSpec.mockResolvedValue({ requirements: "", design: "", tasks: "" });
   });
 
   afterEach(() => {
     vi.clearAllMocks();
-    delete process.env["GITHUB_TOKEN"];
+    delete process.env.GITHUB_TOKEN;
   });
 
   it("handles issue number 1 (edge: lowest valid number)", async () => {

@@ -1,5 +1,6 @@
 {
   "name": "pr-agent",
+  "model": "auto",
   "description": "Reads a GitHub issue from Designerpro13/hb-frontend, generates a Kiro spec, implements the security fix, runs tests, and opens a PR — all headlessly.",
   "tools": ["read", "write", "shell", "grep"],
   "excludedTools": ["knowledge", "browser"],

@@ -166,27 +166,36 @@ _advance 0
 # ---------------------------------------------------------------------------
 # Stage 1: Docker
 # ---------------------------------------------------------------------------
-_start_spinner "Starting Docker daemon…" "$CURRENT_PCT"
+_start_spinner "Checking Docker…" "$CURRENT_PCT"
 {
   log "=== Docker ==="
-  if ! docker info &>/dev/null 2>&1; then
-    log "Docker not running, trying sudo…"
-    if ! sudo systemctl start docker >> "$LOG_FILE" 2>&1; then
-      err "Docker daemon could not be started. Is Docker installed?"
-      exit 1
-    fi
-    # Wait up to 10s for daemon to be ready
-    for _ in {1..10}; do
-      docker info &>/dev/null 2>&1 && break
-      sleep 1
-    done
-    if ! docker info &>/dev/null 2>&1; then
-      err "Docker daemon started but not responding."
-      exit 1
-    fi
-    log "Docker daemon started via sudo."
-  else
+  if docker info &>/dev/null 2>&1; then
     log "Docker already running."
+  else
+    log "Docker not running — starting in background with sudo…"
+    sudo systemctl start docker &>/dev/null 2>&1 &
+    DOCKER_START_PID=$!
+    # Poll up to 15s without blocking the spinner
+    DOCKER_READY=0
+    for i in {1..15}; do
+      sleep 1
+      if docker info &>/dev/null 2>&1; then
+        DOCKER_READY=1
+        break
+      fi
+    done
+    wait "$DOCKER_START_PID" 2>/dev/null || true
+    if [[ $DOCKER_READY -eq 0 ]]; then
+      log "Docker not ready after 15s — trying sudo docker info as fallback…"
+      if sudo docker info &>/dev/null 2>&1; then
+        log "Docker available via sudo. Continuing."
+      else
+        err "Docker daemon did not start. Run: sudo systemctl start docker"
+        exit 1
+      fi
+    else
+      log "Docker daemon ready."
+    fi
   fi
 } >> "$LOG_FILE" 2>&1
 _stop_spinner

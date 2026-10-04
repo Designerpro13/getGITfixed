@@ -1,15 +1,15 @@
 ---
-specId: issue-2
-issueNumber: 2
+specId: issue-1
+issueNumber: 1
 ---
 
-# Tasks: Debug mode and verbose exception responses expose internals
+# Tasks: Hardcoded credentials and secrets in backend source
 
 ## Pre-flight
 
 - [ ] 1. Confirm `GITHUB_TOKEN` environment variable is set and has `repo`, `issues`, `pull_requests` scopes
 - [ ] 2. Verify Docker is running (required for GitHub MCP server): `docker info`
-- [ ] 3. Read the issue body in full: [#2](https://github.com/Designerpro13/hb-frontend/issues/2)
+- [ ] 3. Read the issue body in full: [#1](https://github.com/Designerpro13/hb-frontend/issues/1)
 
 ## Spec
 
@@ -27,11 +27,11 @@ issueNumber: 2
 
 ## Git & PR
 
-- [ ] 12. Create a branch: `git checkout -b fix/issue-2-<slug>`
-- [ ] 13. Stage and commit: `git commit -m "fix: remediate security issue #2"`
-- [ ] 14. Push the branch: `git push -u origin fix/issue-2-<slug>`
-- [ ] 15. Open a PR via GitHub MCP referencing issue #2
-- [ ] 16. Add a comment on issue #2 linking back to the PR
+- [ ] 12. Create a branch: `git checkout -b fix/issue-1-<slug>`
+- [ ] 13. Stage and commit: `git commit -m "fix: remediate security issue #1"`
+- [ ] 14. Push the branch: `git push -u origin fix/issue-1-<slug>`
+- [ ] 15. Open a PR via GitHub MCP referencing issue #1
+- [ ] 16. Add a comment on issue #1 linking back to the PR
 
 ## Verification
 

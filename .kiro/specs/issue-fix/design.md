@@ -1,14 +1,14 @@
 ---
-specId: issue-2
-issueNumber: 2
+specId: issue-1
+issueNumber: 1
 ---
 
-# Design: Debug mode and verbose exception responses expose internals
+# Design: Hardcoded credentials and secrets in backend source
 
 ## Overview
 
 This document describes the technical approach for fixing the security vulnerability
-reported in issue #2.
+reported in issue #1.
 
 ## Affected Areas
 
@@ -39,9 +39,9 @@ fix rationale.
 
 ## Branch Naming
 
-`fix/issue-2-<short-slug>`
+`fix/issue-1-<short-slug>`
 
-Example: `fix/issue-2-debug-mode-and-verbose-exception-respons`
+Example: `fix/issue-1-hardcoded-credentials-and-secrets-in-bac`
 
 ## PR Description Template
 

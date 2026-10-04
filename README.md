@@ -4,7 +4,7 @@
 
 ```bash
 ./intro.sh          # see what this is
-source setup.sh     # load .env + verify MCP
+setup.sh     # load .env + verify MCP
 ./run.sh 19         # fix issue #19, open the PR
 ```
 
@@ -202,8 +202,3 @@ Token is always read from `${GITHUB_TOKEN}` — never hardcoded.
 - `.env` is gitignored
 - Target repo is a controlled security lab — intentionally vulnerable, not production
 
----
-
-## License
-
-MIT
